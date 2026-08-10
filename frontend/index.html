@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Final.Project.Cloud</title>
+    <style>
+        body { font-family: sans-serif; max-width: 640px; margin: 4rem auto; padding: 0 1rem; }
+        #status { padding: 0.75rem 1rem; border-radius: 6px; font-family: monospace; }
+        .ok { background: #e6ffed; color: #036b26; }
+        .err { background: #ffecec; color: #a30000; }
+    </style>
+</head>
+<body>
+    <h1>Final.Project.Cloud</h1>
+    <p>Frontend container is up. Checking backend connectivity...</p>
+    <div id="status">Checking...</div>
+
+    <script>
+        fetch('/api/hello')
+            .then(r => r.json())
+            .then(data => {
+                const el = document.getElementById('status');
+                el.className = 'ok';
+                el.textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(err => {
+                const el = document.getElementById('status');
+                el.className = 'err';
+                el.textContent = 'Could not reach backend: ' + err;
+            });
+    </script>
+</body>
+</html>

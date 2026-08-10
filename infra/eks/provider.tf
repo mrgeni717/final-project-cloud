@@ -1,0 +1,38 @@
+terraform {
+  required_version = ">= 1.6.0"
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+    tls = {
+      source  = "hashicorp/tls"
+      version = "~> 4.0"
+    }
+  }
+
+  backend "s3" {
+    bucket         = "final-project-cloud-tfstate-064453092192"
+    key            = "eks/terraform.tfstate"
+    region         = "us-east-1"
+    dynamodb_table = "final-project-cloud-tf-locks"
+    encrypt        = true
+  }
+}
+
+provider "aws" {
+  region = "us-east-1"
+}
+
+# Reads the outputs from the network module's state file directly —
+# this is how modules in separate state files share values, instead
+# of copy-pasting subnet/SG IDs by hand.
+data "terraform_remote_state" "network" {
+  backend = "s3"
+  config = {
+    bucket = "final-project-cloud-tfstate-064453092192"
+    key    = "network/terraform.tfstate"
+    region = "us-east-1"
+  }
+}

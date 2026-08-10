@@ -1,0 +1,29 @@
+# Java / Maven
+target/
+*.class
+
+# Docker
+*.log
+
+# Terraform — never commit these
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+crash.log
+crash.*.log
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+.terraform.lock.hcl
+
+# IDE
+.vscode/
+.idea/
+
+# Downloaded third-party manifests (not part of this project's own code)
+v2_14_1_full.yaml
+v2_14_1_full.yaml.bak
+v2.14.1_ingclass.yaml
+cert-manager.yaml
