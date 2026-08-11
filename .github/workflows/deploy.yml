@@ -1,0 +1,53 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  id-token: write   # required for OIDC — no AWS access keys stored anywhere
+  contents: read
+
+env:
+  AWS_REGION: us-east-1
+  ECR_REGISTRY: 064453092192.dkr.ecr.us-east-1.amazonaws.com
+  EKS_CLUSTER: final-project-cloud-eks
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::064453092192:role/final-project-cloud-github-actions-role
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Log in to Amazon ECR
+        id: ecr-login
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push backend image
+        working-directory: backend
+        run: |
+          docker build -t $ECR_REGISTRY/final-project-cloud-backend:latest .
+          docker push $ECR_REGISTRY/final-project-cloud-backend:latest
+
+      - name: Build and push frontend image
+        working-directory: frontend
+        run: |
+          docker build -t $ECR_REGISTRY/final-project-cloud-frontend:latest .
+          docker push $ECR_REGISTRY/final-project-cloud-frontend:latest
+
+      - name: Update kubeconfig
+        run: aws eks update-kubeconfig --name $EKS_CLUSTER --region $AWS_REGION
+
+      - name: Roll out new images
+        run: |
+          kubectl rollout restart deployment/backend
+          kubectl rollout restart deployment/frontend
+          kubectl rollout status deployment/backend --timeout=180s
+          kubectl rollout status deployment/frontend --timeout=180s

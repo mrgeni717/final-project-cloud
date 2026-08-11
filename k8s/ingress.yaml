@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: final-project-cloud-ingress
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/subnets: subnet-01dc18445dd6ae01e,subnet-0ac029adc1ab93fc4
+    alb.ingress.kubernetes.io/security-groups: sg-0dbcafb6e388b90ae
+    alb.ingress.kubernetes.io/healthcheck-path: /api/health
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+          # More specific path first — the ALB Controller preserves
+          # rule order, and a catch-all "/" listed first would shadow
+          # this one.
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: backend
+                port:
+                  number: 8080
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80
