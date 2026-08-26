@@ -9,7 +9,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "final-project-cloud-tfstate-064453092192"
+    bucket         = "final-project-cloud-tfstate-975769101514"
     key            = "rds/terraform.tfstate"
     region         = "us-east-1"
     dynamodb_table = "final-project-cloud-tf-locks"
@@ -24,7 +24,7 @@ provider "aws" {
 data "terraform_remote_state" "network" {
   backend = "s3"
   config = {
-    bucket = "final-project-cloud-tfstate-064453092192"
+    bucket = "final-project-cloud-tfstate-975769101514"
     key    = "network/terraform.tfstate"
     region = "us-east-1"
   }
