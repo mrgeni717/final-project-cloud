@@ -5,8 +5,8 @@ metadata:
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
-    alb.ingress.kubernetes.io/subnets: subnet-01dc18445dd6ae01e,subnet-0ac029adc1ab93fc4
-    alb.ingress.kubernetes.io/security-groups: sg-0dbcafb6e388b90ae
+    alb.ingress.kubernetes.io/subnets: subnet-0866fa6e600053281,subnet-0e8a4d781f99251b2
+    alb.ingress.kubernetes.io/security-groups: sg-0eabc0e03218101a9
     alb.ingress.kubernetes.io/healthcheck-path: /api/health
 spec:
   ingressClassName: alb
