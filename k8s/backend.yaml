@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: 064453092192.dkr.ecr.us-east-1.amazonaws.com/final-project-cloud-backend:latest
+          image: 975769101514.dkr.ecr.us-east-1.amazonaws.com/final-project-cloud-backend:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080

@@ -10,7 +10,7 @@ permissions:
 
 env:
   AWS_REGION: us-east-1
-  ECR_REGISTRY: 064453092192.dkr.ecr.us-east-1.amazonaws.com
+  ECR_REGISTRY: 975769101514.dkr.ecr.us-east-1.amazonaws.com
   EKS_CLUSTER: final-project-cloud-eks
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::064453092192:role/final-project-cloud-github-actions-role
+          role-to-assume: arn:aws:iam::975769101514:role/final-project-cloud-github-actions-role
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Log in to Amazon ECR
